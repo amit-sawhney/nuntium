@@ -1,11 +1,9 @@
 import { Schema, model } from 'mongoose';
 import { ObjectId } from 'mongodb';
-import { Enum } from '../../types';
 
-type AccountToken = `acct_${string}`;
+export type AccountToken = `acct_${string}`;
 
-interface Account {
-  // Attributes
+export interface Account {
   token: AccountToken;
   email: string;
   newsroom: string;
@@ -29,25 +27,6 @@ interface Account {
   approvedAt: Date | null;
   createdAt: Date;
   updatedAt: Date;
-}
-
-enum OnboardingState {
-  COMPLETE = 'complete',
-  SCHEDULED = 'scheduled',
-  CANCELED = 'canceled',
-  UNSCHEDULED = 'unscheduled',
-}
-
-enum AccountApplicationState {
-  APPROVED = 'approved',
-  REJECTED = 'rejected',
-  IN_REVIEW = 'in_review',
-}
-
-enum AccountRole {
-  ADMIN = 'admin',
-  STAFF = 'staff',
-  CONTRIBUTOR = 'contributor',
 }
 
 const AccountSchema = new Schema(
@@ -114,7 +93,7 @@ const AccountSchema = new Schema(
       queryApplicationState(state: AccountApplicationState) {
         return this.find({ applicationState: state });
       },
-      queryOnboardingState(state: Enum<OnboardingState>) {
+      queryOnboardingState(state: OnboardingState) {
         return this.find({ onboardingState: state });
       },
     },
@@ -123,3 +102,9 @@ const AccountSchema = new Schema(
 
 // Index Definitions
 AccountSchema.index({ newsroom: 1, token: 1, applicationState: 1 });
+AccountSchema.index({ newsroom: 1, token: 1, onboardingState: 1 });
+
+const AccountModel = model('Account', AccountSchema);
+
+export default AccountModel;
+export { AccountSchema };
