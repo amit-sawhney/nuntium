@@ -1,12 +1,13 @@
 import { Schema, model } from 'mongoose';
-import { ObjectId } from 'mongodb';
+
+import { createTypedToken } from '@/core/helpers';
 
 export type AccountToken = `acct_${string}`;
 
 export interface Account {
   token: AccountToken;
   email: string;
-  newsroom: string;
+  newsroom: string[];
   role: AccountRole;
   firstName: string;
   lastName: string;
@@ -36,7 +37,7 @@ const AccountSchema = new Schema(
       type: String,
       // Unique index
       unique: true,
-      default: (): AccountToken => `acct_${new ObjectId().toString()}`,
+      default: (): AccountToken => createTypedToken('acct') as AccountToken,
     },
     email: {
       type: String,
@@ -45,7 +46,7 @@ const AccountSchema = new Schema(
       unique: true,
     },
     newsroom: {
-      type: String,
+      type: [String],
       required: true,
     },
     role: {
