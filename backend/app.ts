@@ -5,10 +5,15 @@ import express, { Request, Response } from 'express';
 import helmet from 'helmet';
 
 import routes from './src/routes';
-import env from './config/env';
+import env from './src/core/config/env';
+import {
+  requestDevelopmentMiddelware,
+  requestProductionMiddleware,
+} from './src/core/middleware/logger-middleware';
 
 const app = express();
 
+app.use(requestDevelopmentMiddelware, requestProductionMiddleware);
 app.use(helmet());
 app.use(express.json({ limit: '2.1mb' }));
 app.use(express.urlencoded({ limit: '2.1mb', extended: false }));
