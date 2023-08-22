@@ -9,7 +9,7 @@ import env from './src/core/config/env';
 import {
   requestDevelopmentMiddelware,
   requestProductionMiddleware,
-} from './src/core/middleware/logger-middleware';
+} from './src/core/logger/middleware/request-middleware';
 
 const app = express();
 
