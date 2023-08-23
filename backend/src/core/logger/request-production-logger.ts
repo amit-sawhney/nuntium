@@ -1,7 +1,6 @@
 import pino, { LoggerOptions } from 'pino';
 
-import env from '../config/env';
-import { isProduction } from '../config/helper';
+import env, { isProduction } from '../config/env';
 
 const transport = pino.transport({
   target: '@logtail/pino',

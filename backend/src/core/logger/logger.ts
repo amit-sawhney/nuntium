@@ -1,6 +1,6 @@
 import pino, { TransportSingleOptions } from 'pino';
 
-import { isProduction } from '../config/helper';
+import { isProduction } from '../config/env';
 
 // Choose transport based on environment
 const getTransport = (): TransportSingleOptions => {
