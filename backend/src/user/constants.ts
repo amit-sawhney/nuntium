@@ -1,18 +1,19 @@
-enum OnboardingState {
+enum UserOnboardingState {
   COMPLETE = 'complete',
   SCHEDULED = 'scheduled',
   CANCELED = 'canceled',
   UNSCHEDULED = 'unscheduled',
 }
 
-enum AccountApplicationState {
+enum UserApplicationState {
   APPROVED = 'approved',
   REJECTED = 'rejected',
   IN_REVIEW = 'in_review',
 }
 
-enum AccountRole {
+enum UserRole {
   ADMIN = 'admin',
   STAFF = 'staff',
   CONTRIBUTOR = 'contributor',
+  PENDING = 'pending',
 }

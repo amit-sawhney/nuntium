@@ -9,6 +9,10 @@ const envSchema = zod.object({
   PORT: zod.string().default('5000'),
   MONGO_DB_URL: zod.string(),
   LOGTAIL_TOKEN: zod.string(),
+  JWT_SECRET: zod.string(),
+  GOOGLE_CLIENT_ID: zod.string(),
+  GOOGLE_CLIENT_SECRET: zod.string(),
+  GOOGLE_CALLBACK_URL: zod.string(),
 });
 
 const env = envSchema.parse(process.env);

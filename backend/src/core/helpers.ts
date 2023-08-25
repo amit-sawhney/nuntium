@@ -6,5 +6,5 @@ import { ObjectId } from 'mongodb';
  * @param prefix the prefix to use
  * @returns the generated token
  */
-export const createTypedToken = (prefix: string): string =>
+export const createPrefixedId = (prefix: string): string =>
   `${prefix}_${new ObjectId().toString()}`;
