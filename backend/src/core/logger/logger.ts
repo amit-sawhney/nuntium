@@ -11,7 +11,7 @@ const getTransport = (): TransportSingleOptions => {
     };
   }
 
-  return { target: 'pino-http-print' };
+  return { target: 'pino-pretty', options: { destination: 1 } };
 };
 
 /**

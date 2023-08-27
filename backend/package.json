@@ -5,7 +5,7 @@
   "scripts": {
     "start": "yarn build && if-env NODE_ENV=production ?? npm run start:prod || npm run start:dev",
     "start:prod": "export NODE_ENV=production && node -r dotenv/config ./bin/www",
-    "start:dev": "export NODE_ENV=development && nodemon --watch src --ext ts,js,json --exec \"tsc --incremental && node -r dotenv/config ./bin/www\"",
+    "start:dev": "export NODE_ENV=development && npx depcruise src && nodemon --watch src --ext ts,js,json --exec \"tsc --incremental && node -r dotenv/config ./bin/www\"",
     "format": "prettier --write \"./**/*.{ts,json,md}\"",
     "format:check": "prettier --check \"./**/*.{ts,json,md}\"",
     "build": "tsc",
