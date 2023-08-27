@@ -1,19 +1,12 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model, Document } from 'mongoose';
 
-import { createPrefixedId } from '@/core/helpers';
-
-export interface Newsroom {
+export interface Newsroom extends Document {
   name: string;
   description: string | null;
   founders: string[];
 }
 
 const NewsroomSchema = new Schema({
-  _id: {
-    type: String,
-    unique: true,
-    default: () => createPrefixedId('nsrm'),
-  },
   name: {
     type: String,
     required: true,

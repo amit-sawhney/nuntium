@@ -1,4 +1,4 @@
-import Command from '@/core/command';
+import AbstractCommand from '@/api/abstract-command';
 import logger from '@/core/logger/logger';
 import UserModel, { User } from '../model/user-model';
 
@@ -6,7 +6,7 @@ interface Props {
   userId: string;
 }
 
-export default class DescribeUserCommand implements Command {
+export default class DescribeUserCommand implements AbstractCommand {
   async call({ userId }: Props): Promise<User | null> {
     const user = await UserModel.queryById(userId).exec();
 

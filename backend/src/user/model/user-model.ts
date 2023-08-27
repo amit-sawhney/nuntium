@@ -1,8 +1,8 @@
 import { Schema, model, Document, SchemaTypes } from 'mongoose';
 
-import { createPrefixedId } from '@/core/helpers';
+import { UserApplicationState, UserOnboardingState, UserRole } from '../constants';
 
-export interface User extends Document<string> {
+export interface User extends Document {
   email: string;
   newsroom: string[];
   role: UserRole;
@@ -14,73 +14,76 @@ export interface User extends Document<string> {
   pronouns: string[];
   races: string[];
   interests: string[];
-  teams: string[];
-  onboardingState: UserOnboardingState;
-  applicationState: UserApplicationState;
   twitter: string | null;
   instagram: string | null;
   facebook: string | null;
   portfolio: string | null;
+  // TODO: Make this more versatile
   neighborhood: string | null;
+  // TODO: Migrate these to a newsroom account model
+  teams: string[];
+  onboardingState: UserOnboardingState;
+  applicationState: UserApplicationState;
   approvedAt: Date | null;
 }
 
 const UserSchema = new Schema(
   {
-    _id: {
-      type: String,
-      // Unique index
-      unique: true,
-      default: (): string => createPrefixedId('acct'),
-    },
     email: {
       type: SchemaTypes.String,
       required: true,
       // Unique index
       unique: true,
     },
+    password: {
+      type: SchemaTypes.String,
+      required: true,
+      // Don't return password in queries
+      select: false,
+    },
     newsroom: {
       type: [SchemaTypes.String],
       required: true,
     },
     role: {
-      type: String,
+      type: SchemaTypes.String,
       enum: Object.values(UserRole),
       default: UserRole.PENDING,
     },
-    firstName: { type: String, required: true },
-    lastName: { type: String, required: true },
+    firstName: { type: SchemaTypes.String, required: true },
+    lastName: { type: SchemaTypes.String, required: true },
     // Replaces first name if provided
-    preferredName: { type: String, default: null },
+    preferredName: { type: SchemaTypes.String, default: null },
     // Unformatted phone number
-    phone: { type: String, default: null },
-    genders: { type: [String], default: [] },
-    pronouns: { type: [String], default: [] },
-    races: { type: [String], default: [] },
+    phone: { type: SchemaTypes.String, default: null },
+    genders: { type: [SchemaTypes.String], default: [] },
+    pronouns: { type: [SchemaTypes.String], default: [] },
+    races: { type: [SchemaTypes.String], default: [] },
     // Dynmaic list of interests
-    interests: { type: [String], default: [] },
+    interests: { type: [SchemaTypes.String], default: [] },
     // The teams the user is allowed to access
-    teams: { type: [String], default: [] },
+    teams: { type: [SchemaTypes.String], default: [] },
     // User state metadata
     onboardingState: {
-      type: String,
+      type: SchemaTypes.String,
       enum: Object.values(UserOnboardingState),
       default: UserOnboardingState.UNSCHEDULED,
     },
+    // User application state
     applicationState: {
-      type: String,
+      type: SchemaTypes.String,
       enum: Object.values(UserApplicationState),
       default: UserApplicationState.IN_REVIEW,
     },
     // Socials
-    twitter: { type: String, default: null },
-    instagram: { type: String, default: null },
-    facebook: { type: String, default: null },
-    portfolio: { type: String, default: null },
+    twitter: { type: SchemaTypes.String, default: null },
+    instagram: { type: SchemaTypes.String, default: null },
+    facebook: { type: SchemaTypes.String, default: null },
+    portfolio: { type: SchemaTypes.String, default: null },
     // Location
-    neighborhood: { type: String, default: null },
+    neighborhood: { type: SchemaTypes.String, default: null },
     // Date for when the user was approved
-    approvedAt: { type: Date, default: null },
+    approvedAt: { type: SchemaTypes.Date, default: null },
   },
   {
     timestamps: true,
@@ -93,6 +96,9 @@ const UserSchema = new Schema(
       },
       queryOnboardingState(state: UserOnboardingState) {
         return this.find({ onboardingState: state });
+      },
+      queryByEmail(email: string) {
+        return this.find({ email });
       },
     },
   },

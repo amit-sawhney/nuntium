@@ -19,10 +19,6 @@ const getTransport = (): TransportSingleOptions => {
  */
 const logger = pino({
   level: 'info',
-  prettyPrint: {
-    colorize: true,
-    translateTime: 'yyyy-mm-dd HH:MM:ss',
-  },
   transport: getTransport(),
 });
 
