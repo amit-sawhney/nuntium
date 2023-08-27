@@ -1,11 +1,12 @@
+import bcrypt from 'bcrypt';
+import { Request } from 'express';
 import { Schema, SchemaTypes } from 'mongoose';
 import zod from 'zod';
-import bcrypt from 'bcrypt';
 
 import AbstractMethod from '@/api/abstract-method';
-import UserModel, { User, UserSchema } from '@/user/model/user-model';
+import { User, UserSchema } from '@/user/model/user-model';
 import { ApiMethod } from '@/api/constants';
-import { Request } from 'express';
+import CreateUserWithCredentials from '@/user/command/create-user-with-credentials';
 
 interface Body {
   email: string;
@@ -21,7 +22,7 @@ interface Response {
 
 type MethodRequest = Request<unknown, unknown, Body, unknown>;
 
-class RegisterUserMethod implements AbstractMethod<never, Body, never, Response> {
+class RegisterCredentialsMethod implements AbstractMethod<never, Body, never, Response> {
   method = ApiMethod.POST;
   path = '/auth/register';
 
@@ -40,27 +41,30 @@ class RegisterUserMethod implements AbstractMethod<never, Body, never, Response>
   async execute(req: MethodRequest): Promise<Response> {
     const { email, password, firstName, lastName } = req.body;
 
-    const passwordHash = await RegisterUserMethod.hashPassword(password);
+    const [hash, salt] = await hashPassword(password);
 
-    const user = await UserModel.create({
+    const user = await CreateUserWithCredentials.call({
       email,
-      password: passwordHash,
+      password: hash,
       firstName,
       lastName,
+      salt,
+      refreshToken: '',
+      newsroom: '',
     });
 
     return {
       user,
     };
   }
-
-  static async hashPassword(password: string): Promise<string> {
-    const rounds = 10;
-    const salt = await bcrypt.genSalt(rounds);
-    const passwordHash = await bcrypt.hash(password, rounds);
-
-    return passwordHash;
-  }
 }
 
-export default RegisterUserMethod;
+const hashPassword = async (password: string): Promise<[string, string]> => {
+  const rounds = 10;
+  const salt = await bcrypt.genSalt(rounds);
+  const passwordHash = await bcrypt.hash(password, salt);
+
+  return [passwordHash, salt];
+};
+
+export default RegisterCredentialsMethod;

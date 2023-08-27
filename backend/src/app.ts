@@ -18,6 +18,9 @@ const app = express();
 // Connect to database
 import './core/db';
 
+// Setup passport 
+import './auth/config/passport-config';
+
 if (env.NODE_ENV === 'production') {
   app.use(requestProductionMiddleware);
 } else {

@@ -1,5 +1,6 @@
-interface AbstractCommand {
-  call(p: unknown): Promise<unknown>;
+interface AbstractCommand<Props, Response> {
+  call(p: Props): Response;
+  [key: string]: unknown;
 }
 
 export default AbstractCommand;

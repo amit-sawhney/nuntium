@@ -1,13 +1,14 @@
 import { Router } from 'express';
+import { compose } from 'compose-middleware';
 
-import RegisterUserMethod from '../auth/method/register-user-method';
+import RegisterUserMethod from '../auth/method/register-credentials-method';
 import AbstractMethod from './abstract-method';
 
 const router = Router();
 
 // Create route for a method
 const createRoute = (method: AbstractMethod) => {
-  router[method.method](method.path, async (req, res) => {
+  router[method.method](method.path, compose(method.middleware ?? []), async (req, res) => {
     // Validate request
     method.body?.parse(req.body);
     method.params?.parse(req.params);

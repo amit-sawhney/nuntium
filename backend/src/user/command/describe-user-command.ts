@@ -6,7 +6,7 @@ interface Props {
   userId: string;
 }
 
-export default class DescribeUserCommand implements AbstractCommand {
+const DescribeUserCommand: AbstractCommand<Props, Promise<User | null>> = {
   async call({ userId }: Props): Promise<User | null> {
     const user = await UserModel.queryById(userId).exec();
 
@@ -18,5 +18,7 @@ export default class DescribeUserCommand implements AbstractCommand {
     }
 
     return user[0];
-  }
-}
+  },
+};
+
+export default DescribeUserCommand;
