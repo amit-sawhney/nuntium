@@ -1,6 +1,6 @@
 import { Strategy as JwtStrategy, ExtractJwt, VerifyCallback } from 'passport-jwt';
 
-import env from '@/core/config/env';
+import env from '@/core/env';
 import UserModel from '@/user/model/user-model';
 
 const options = {

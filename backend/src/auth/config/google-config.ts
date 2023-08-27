@@ -1,6 +1,6 @@
 import { Strategy as GoogleStrategy, VerifyCallback, Profile } from 'passport-google-oauth20';
 
-import env from '@/core/config/env';
+import env from '@/core/env';
 import UserModel from '@/user/model/user-model';
 import { UserApplicationState, UserOnboardingState, UserRole } from '@/user/constants';
 

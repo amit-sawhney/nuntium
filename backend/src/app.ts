@@ -6,7 +6,7 @@ import helmet from 'helmet';
 import 'express-async-errors';
 
 import routes from './api/routes';
-import env from './core/config/env';
+import env from './core/env';
 import {
   requestDevelopmentMiddelware,
   requestProductionMiddleware,
@@ -16,7 +16,7 @@ import errorHandler from './api/middleware/error-handler-middleware';
 const app = express();
 
 // Connect to database
-import './core/config/db';
+import './core/db';
 
 if (env.NODE_ENV === 'production') {
   app.use(requestProductionMiddleware);
