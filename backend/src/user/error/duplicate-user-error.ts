@@ -1,16 +1,14 @@
 import { StatusCodes } from 'http-status-codes';
 
-import ApplicationError from '@/core/application-error';
+import ApplicationError from '@/core/error/application-error';
 
 class DuplicateUserError extends ApplicationError {
-  statusCode = StatusCodes.BAD_REQUEST;
-  displayName = 'DuplicateUserError';
-
-  object: object;
-
   constructor(message: string, object: object = {}) {
-    super(message);
-    this.object = object;
+    super(message, {
+      statusCode: StatusCodes.BAD_REQUEST,
+      displayName: 'DuplicateUserError',
+      ...object,
+    });
   }
 }
 

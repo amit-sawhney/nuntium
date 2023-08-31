@@ -1,8 +1,10 @@
 import mongoose from 'mongoose';
 
 import logger from './logger/logger';
-
 import env from './env';
+
+mongoose.set('toObject', { useProjection: true });
+mongoose.set('toJSON', { useProjection: true });
 
 mongoose.connect(env.MONGO_DB_URL, {});
 

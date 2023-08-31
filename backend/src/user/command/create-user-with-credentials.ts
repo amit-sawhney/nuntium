@@ -1,6 +1,9 @@
 import AbstractCommand from '@/api/abstract-command';
+import DuplicateEntityError from '@/core/error/duplicate-entity-error';
+import SchemaValidationError from '@/core/error/schema-validation-error';
 import logger from '@/core/logger/logger';
-import DuplicateUserError from '../error/duplicate-user-error';
+import MongoErrorCode from '@/core/mongo-constants';
+import { MongoError } from 'mongodb';
 
 import UserModel, { User } from '../model/user-model';
 
@@ -45,34 +48,47 @@ const CreateUserWithCredentials: AbstractCommand<Props, Promise<User>> = {
     logger.trace('Creating user with local credentials');
 
     const exists = await UserModel.exists({ email });
-
     if (exists) {
-      throw new DuplicateUserError('User with this email already exists', {
-        email,
-      });
+      throw new DuplicateEntityError('User already exists for email');
     }
 
-    const user = await UserModel.create({
-      email,
-      password,
-      salt,
-      refreshToken,
-      firstName,
-      lastName,
-      newsroom,
-      preferredName,
-      genders,
-      pronouns,
-      races,
-      twitter,
-      instagram,
-      facebook,
-      portfolio,
-      linkedin,
-    });
+    try {
+      const user = await UserModel.create({
+        email,
+        password,
+        salt,
+        refreshToken,
+        firstName,
+        lastName,
+        newsroom,
+        preferredName,
+        genders,
+        pronouns,
+        races,
+        twitter,
+        instagram,
+        facebook,
+        portfolio,
+        linkedin,
+      });
 
-    logger.trace('Successfully created user with local credentials');
-    return user;
+      logger.trace('Successfully created user with local credentials');
+      return user;
+    } catch (error) {
+      if (error instanceof MongoError) {
+        if (error.code === MongoErrorCode.DUPLICATE_KEY) {
+          throw new DuplicateEntityError('User already exists for provided payload', {
+            error,
+          });
+        } else if ((error as MongoError).name === 'ValidationError') {
+          throw new SchemaValidationError('Failed to create user due to invalid data', {
+            error,
+          });
+        }
+      }
+    }
+
+    throw new Error('Unexpected error while creating user with local credentials');
   },
 };
 

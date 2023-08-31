@@ -9,7 +9,7 @@ const options: IStrategyOptions = {
 const verifyCb: VerifyFunction = async (email, password, done): Promise<void> => {
   const maybeUser = await UserModel.find({ email }).limit(1).exec();
 
-  if (!maybeUser) {
+  if (maybeUser.length === 0) {
     return done(null, false, { message: 'User not found' });
   }
 
