@@ -1,6 +1,8 @@
 import { createRoutesFromElements, Route } from 'react-router-dom';
 
-import { LandingPage, LoginPage, RootPage } from './pages';
+import RootPage from '@/pages/root-page';
+import LandingPage from '@/pages/landing-page';
+import LoginPage from '@/pages/login-page';
 
 export const routes = createRoutesFromElements(
   <Route path="/" element={<RootPage />}>
