@@ -1,3 +1,5 @@
-import Login from "./Login";
+import LoginPage from './login-page';
+import LandingPage from './landing-page';
+import RootPage from './root-page';
 
-export { Login };
+export { LoginPage, LandingPage, RootPage };
