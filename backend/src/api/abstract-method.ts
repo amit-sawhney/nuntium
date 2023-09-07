@@ -7,7 +7,7 @@ import { Handler } from 'compose-middleware';
 
 type Middleware = Handler<any, any, any>;
 
-interface AbstractMethod<Params = unknown, Body = unknown, Query = unknown, Response = unknown> {
+interface AbstractMethod<Params = any, Body = any, Query = any, Response = any> {
   method: ApiMethod;
   path: string;
 

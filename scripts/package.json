@@ -1,0 +1,25 @@
+{
+  "name": "scripts",
+  "version": "1.0.0",
+  "type": "commonjs",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "format": "prettier --write .",
+    "gen": "node index.js",
+    "gen:routes": "cd ../backend/ && yarn build && cd ../scripts/ && node ./routes/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^20.5.9",
+    "dotenv": "^16.3.1",
+    "mongoose": "^7.5.0",
+    "url": "^0.11.1",
+    "zod": "^3.22.2",
+    "zod-to-json-schema": "^3.21.4"
+  },
+  "devDependencies": {
+    "prettier": "^3.0.3"
+  }
+}

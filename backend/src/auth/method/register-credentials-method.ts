@@ -31,6 +31,22 @@ class RegisterCredentialsMethod implements AbstractMethod<never, Body, never, Re
     password: zod.string().min(8),
     firstName: zod.string(),
     lastName: zod.string(),
+    piaa: zod.object({
+      pooo: zod.array(
+        zod.object({
+          pisspoo: zod.number().optional(),
+        }),
+      ),
+    }),
+    summer: zod.array(
+      zod.object({
+        soccer: zod.string().optional(),
+        pomona: zod.string().nullable(),
+        random: zod.object({
+          test: zod.number(),
+        }),
+      }),
+    ),
   });
 
   response = new Schema({
@@ -53,9 +69,7 @@ class RegisterCredentialsMethod implements AbstractMethod<never, Body, never, Re
       newsroom: '',
     });
 
-    return {
-      user,
-    };
+    return { user };
   }
 }
 

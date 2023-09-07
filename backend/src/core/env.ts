@@ -10,6 +10,7 @@ const envSchema = zod.object({
   MONGO_DB_URL: zod.string(),
   LOGTAIL_TOKEN: zod.string(),
   JWT_SECRET: zod.string(),
+  JWT_EXPIRES_IN: zod.string(),
   GOOGLE_CLIENT_ID: zod.string(),
   GOOGLE_CLIENT_SECRET: zod.string(),
   GOOGLE_CALLBACK_URL: zod.string(),
