@@ -5,7 +5,7 @@ import UserModel from '@/user/model/user-model';
 
 const options = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: env.JWT_SECRET,
+  secretOrKey: env.JWT_ACCESS_TOKEN_EXPIRES_IN,
 };
 
 const verifyCb: VerifyCallback = async (payload: any, done) => {

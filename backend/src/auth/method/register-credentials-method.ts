@@ -7,6 +7,9 @@ import AbstractMethod from '@/api/abstract-method';
 import { User, UserSchema } from '@/user/model/user-model';
 import { ApiMethod } from '@/api/constants';
 import CreateUserWithCredentials from '@/user/command/create-user-with-credentials';
+import CreateJwtTokenCommand from '../command/create-jwt-token-command';
+import * as Helpers from '../helpers';
+import env from '@/core/env';
 
 interface Body {
   email: string;
@@ -31,22 +34,6 @@ class RegisterCredentialsMethod implements AbstractMethod<never, Body, never, Re
     password: zod.string().min(8),
     firstName: zod.string(),
     lastName: zod.string(),
-    piaa: zod.object({
-      pooo: zod.array(
-        zod.object({
-          pisspoo: zod.number().optional(),
-        }),
-      ),
-    }),
-    summer: zod.array(
-      zod.object({
-        soccer: zod.string().optional(),
-        pomona: zod.string().nullable(),
-        random: zod.object({
-          test: zod.number(),
-        }),
-      }),
-    ),
   });
 
   response = new Schema({
@@ -59,15 +46,40 @@ class RegisterCredentialsMethod implements AbstractMethod<never, Body, never, Re
 
     const [hash, salt] = await hashPassword(password);
 
+    const accessToken = CreateJwtTokenCommand.call({
+      email,
+      type: 'access',
+    });
+
+    const refreshToken = CreateJwtTokenCommand.call({
+      email,
+      type: 'refresh',
+    });
+
     const user = await CreateUserWithCredentials.call({
       email,
       password: hash,
+      refreshToken: refreshToken,
+      salt,
       firstName,
       lastName,
-      salt,
-      refreshToken: '',
       newsroom: '',
     });
+
+    const accessTokenCookie = Helpers.buildTokenCookie({
+      type: 'access',
+      token: accessToken,
+      maxAge: env.JWT_ACCESS_TOKEN_EXPIRES_IN,
+    });
+
+    const refreshTokenCookie = Helpers.buildTokenCookie({
+      type: 'refresh',
+      token: refreshToken,
+      maxAge: env.JWT_REFRESH_TOKEN_EXPIRES_IN,
+    });
+
+    // Set the authentication cookies
+    req.res?.setHeader('Set-Cookie', [accessTokenCookie, refreshTokenCookie]);
 
     return { user };
   }

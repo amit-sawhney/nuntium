@@ -1,12 +1,12 @@
 import { NextFunction, Request, Response } from 'express';
 import { ZodError } from 'zod';
 import HttpStatus from 'http-status-codes';
+import { MongoError } from 'mongodb';
+import createHttpError from 'http-errors';
 
 import logger from '@/core/logger/logger';
-import { MongoError } from 'mongodb';
 import MongoErrorCode from '@/core/mongo-constants';
 import ApplicationError from '@/core/error/application-error';
-import createHttpError from 'http-errors';
 
 const errorHandler = (err: Error, _req: Request, res: Response, _next: NextFunction): void => {
   const createResponse = (statusCode: number, message: string): void => {
