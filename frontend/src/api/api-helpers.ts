@@ -17,9 +17,12 @@ const buildUrl = (url: string, options: Options) => {
   let builtUrl = url;
 
   if (params) {
-    Object.keys(params).forEach((key) => {
-      builtUrl = builtUrl.replace(`:${key}`, params[key] as string);
-    });
+    const sortedParams = Object.keys(params).sort();
+
+    // add params to url
+    builtUrl = `${builtUrl}/${sortedParams
+      .map((key) => params[key])
+      .join('/')}`;
   }
 
   if (query) {

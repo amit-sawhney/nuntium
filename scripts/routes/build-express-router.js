@@ -15,29 +15,12 @@ const ROUTES_PATH = path.resolve(
 
 const dependencies = `
 import { Router } from 'express';
-import { compose } from 'compose-middleware';
 
-import AbstractMethod from './abstract-method';
+import { createRoute } from './helpers';
 `;
 
 const router = `
 const autogenRouter = Router();
-`;
-
-const createRoute = `
-const createRoute = (method: AbstractMethod) => {
-  autogenRouter[method.method](method.path, compose(method.middleware ?? []), async (req, res) => {
-        // Validate request
-        method.body?.parse(req.body);
-        method.params?.parse(req.params);
-        method.query?.parse(req.query);
-        
-        method.validate?.(req);
-
-        // Execute method
-        res.json(await method.execute(req as any));
-    });
-};
 `;
 
 const routerExport = `
@@ -59,7 +42,7 @@ module.exports = async () => {
 
   const routes = routeObjs
     .map((r) => {
-      return `createRoute(new ${r.classname}());`;
+      return `createRoute(autogenRouter, new ${r.classname}());`;
     })
     .sort()
     .join('\n');
@@ -68,7 +51,6 @@ module.exports = async () => {
     dependencies,
     imports,
     router,
-    createRoute,
     routes,
     routerExport,
   ];

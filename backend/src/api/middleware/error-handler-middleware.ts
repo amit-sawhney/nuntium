@@ -6,6 +6,7 @@ import logger from '@/core/logger/logger';
 import { MongoError } from 'mongodb';
 import MongoErrorCode from '@/core/mongo-constants';
 import ApplicationError from '@/core/error/application-error';
+import createHttpError from 'http-errors';
 
 const errorHandler = (err: Error, _req: Request, res: Response, _next: NextFunction): void => {
   const createResponse = (statusCode: number, message: string): void => {
@@ -36,6 +37,9 @@ const errorHandler = (err: Error, _req: Request, res: Response, _next: NextFunct
     return createResponse(HttpStatus.INTERNAL_SERVER_ERROR, 'Unexpected error');
   } else if (err instanceof ApplicationError) {
     // Pass application errors through
+    return createResponse(err.statusCode, err.message);
+  } else if (err instanceof createHttpError.HttpError) {
+    // Pass http errors through
     return createResponse(err.statusCode, err.message);
   }
 

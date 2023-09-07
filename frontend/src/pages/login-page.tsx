@@ -14,7 +14,7 @@ const Login = () => {
 
     res.then((res) => {
       console.log(res.user);
-    })
+    });
   });
 
   return (

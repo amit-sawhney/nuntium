@@ -25,7 +25,7 @@ interface Query {
 
 type MethodRequest = Request<Params, Response, Body, Query>;
 
-class RegisterCredentialsMethod implements AbstractMethod<Params, Body, Query, Response> {
+class FindAllUsersMethod implements AbstractMethod<Params, Body, Query, Response> {
   path = '/users';
   method = ApiMethod.GET;
 
@@ -54,4 +54,4 @@ class RegisterCredentialsMethod implements AbstractMethod<Params, Body, Query, R
   }
 }
 
-export default RegisterCredentialsMethod;
+export default FindAllUsersMethod;

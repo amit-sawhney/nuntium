@@ -5,7 +5,7 @@ import express, { Request, Response } from 'express';
 import helmet from 'helmet';
 import 'express-async-errors';
 
-import routes from './api/routes';
+import routes from './api/generated-routes';
 import env from './core/env';
 import {
   requestDevelopmentMiddelware,
@@ -18,7 +18,7 @@ const app = express();
 // Connect to database
 import './core/db';
 
-// Setup passport 
+// Setup passport
 import './auth/config/passport-config';
 
 if (env.NODE_ENV === 'production') {

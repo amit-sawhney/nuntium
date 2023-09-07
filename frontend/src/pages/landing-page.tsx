@@ -1,4 +1,3 @@
-
 const LandingPage = (): JSX.Element => {
   return (
     <main aria-label="Landing page">
