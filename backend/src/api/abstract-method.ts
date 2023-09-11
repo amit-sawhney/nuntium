@@ -20,9 +20,9 @@ interface AbstractMethod<Params = any, Body = any, Query = any, Response = any> 
 
   response: MongooseSchema<Response>;
 
-  execute(req: Request<Params, unknown, Body, Query>): Promise<Response>;
+  execute(req: Request<Params, unknown, Body, Query>): Response;
 
-  validate?(req: Request<Params, unknown, Body, Query>): Promise<void>;
+  validate?(req: Request<Params, unknown, Body, Query>): Response;
 }
 
 export default AbstractMethod;

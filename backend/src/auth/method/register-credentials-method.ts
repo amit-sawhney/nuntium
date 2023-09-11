@@ -6,7 +6,7 @@ import zod from 'zod';
 import AbstractMethod from '@/api/abstract-method';
 import { User, UserSchema } from '@/user/model/user-model';
 import { ApiMethod } from '@/api/constants';
-import CreateUserWithCredentials from '@/user/command/create-user-with-credentials';
+import CreateUserWithCredentials from '@/user/command/create-user-with-credentials-command';
 import CreateJwtTokenCommand from '../command/create-jwt-token-command';
 import * as Helpers from '../helpers';
 import env from '@/core/env';
@@ -25,7 +25,7 @@ interface Response {
 
 type MethodRequest = Request<unknown, unknown, Body, unknown>;
 
-class RegisterCredentialsMethod implements AbstractMethod<never, Body, never, Response> {
+class RegisterCredentialsMethod implements AbstractMethod<never, Body, never, Promise<Response>> {
   method = ApiMethod.POST;
   path = '/auth/register';
 
@@ -46,15 +46,8 @@ class RegisterCredentialsMethod implements AbstractMethod<never, Body, never, Re
 
     const [hash, salt] = await hashPassword(password);
 
-    const accessToken = CreateJwtTokenCommand.call({
-      email,
-      type: 'access',
-    });
-
-    const refreshToken = CreateJwtTokenCommand.call({
-      email,
-      type: 'refresh',
-    });
+    const accessToken = CreateJwtTokenCommand.call({ email, type: 'access' });
+    const refreshToken = CreateJwtTokenCommand.call({ email, type: 'refresh' });
 
     const user = await CreateUserWithCredentials.call({
       email,

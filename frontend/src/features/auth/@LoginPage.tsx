@@ -50,7 +50,7 @@ const LoginPage = () => {
               Register
             </NavLink>
           </div>
-           
+
           {/* 3rd part sign in options */}
           <div className="flex justify-center">
             <span className="text-gray-500">Or sign in with</span>
@@ -99,8 +99,6 @@ const LoginPage = () => {
               </svg>
             </button>
           </div>
-          
-                  
         </Form>
       </div>
     </div>

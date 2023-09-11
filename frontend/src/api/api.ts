@@ -18,6 +18,29 @@ export const findAllUsersMethod = (
   });
 };
 
+export const loginWithCredentialsMethod = (
+  body: types.LoginWithCredentialsMethodBody,
+): Promise<types.LoginWithCredentialsMethodResponse> => {
+  return callEndpoint<
+    types.LoginWithCredentialsMethodResponse,
+    types.LoginWithCredentialsMethodBody
+  >({
+    url: '/auth/login',
+    method: 'post',
+    data: body,
+  });
+};
+
+export const logoutUserMethod = (): Promise<types.LogoutUserMethodResponse> => {
+  return callEndpoint<
+    types.LogoutUserMethodResponse,
+    types.LogoutUserMethodBody
+  >({
+    url: '/auth/logout',
+    method: 'post',
+  });
+};
+
 export const registerCredentialsMethod = (
   body: types.RegisterCredentialsMethodBody,
 ): Promise<types.RegisterCredentialsMethodResponse> => {

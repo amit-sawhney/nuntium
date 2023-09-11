@@ -1,5 +1,6 @@
 import { IStrategyOptions, Strategy as LocalStrategy, VerifyFunction } from 'passport-local';
-import UserModel from '@/user/model/user-model';
+
+import { fetchUserByEmail } from '@/user/loaders';
 
 const options: IStrategyOptions = {
   usernameField: 'email',
@@ -7,15 +8,16 @@ const options: IStrategyOptions = {
 };
 
 const verifyCb: VerifyFunction = async (email, password, done): Promise<void> => {
-  const maybeUser = await UserModel.find({ email }).limit(1).exec();
+  const user = await fetchUserByEmail({ email, includePassword: true });
 
-  if (maybeUser.length === 0) {
+  if (user === null) {
     return done(null, false, { message: 'User not found' });
   }
 
-  const user = maybeUser[0];
-
   const isValidPassword = await user.isValidPassword(password);
+
+  // We don't want to serialize the password
+  user.password = undefined;
 
   if (!isValidPassword) {
     return done(null, false, { message: 'Wrong Password' });

@@ -2,6 +2,7 @@ import { Schema, model, Document, SchemaTypes, SchemaTimestampsConfig } from 'mo
 import bcrypt from 'bcrypt';
 
 import { UserApplicationState, UserOnboardingState, UserRole } from '../constants';
+import logger from '@/core/logger/logger';
 
 export interface User extends Document, SchemaTimestampsConfig {
   email: string;
@@ -141,6 +142,7 @@ const UserSchema = new Schema(
     methods: {
       async isValidPassword(password: string) {
         if (!this.password) {
+          logger.error('User does not have a password');
           return false;
         }
 

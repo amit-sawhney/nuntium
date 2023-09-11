@@ -15,6 +15,13 @@ export const createRoute = (router: Router, method: AbstractMethod) => {
     method.validate?.(req);
 
     // Execute method
+
+    const response = await method.execute(req as any);
+
+    if (response.status) {
+      return res.status(response.status).json(response);
+    }
+
     res.json(await method.execute(req as any));
   });
 };

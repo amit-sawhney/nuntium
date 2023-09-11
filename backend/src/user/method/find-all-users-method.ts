@@ -25,7 +25,7 @@ interface Query {
 
 type MethodRequest = Request<Params, Response, Body, Query>;
 
-class FindAllUsersMethod implements AbstractMethod<Params, Body, Query, Response> {
+class FindAllUsersMethod implements AbstractMethod<Params, Body, Query, Promise<Response>> {
   path = '/users';
   method = ApiMethod.GET;
 
