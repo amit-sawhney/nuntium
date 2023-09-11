@@ -46,12 +46,6 @@ export interface RegisterCredentialsMethodBody {
   password: string;
   firstName: string;
   lastName: string;
-  piaa: { pooo: { pisspoo?: number }[] };
-  summer: {
-    soccer?: string;
-    pomona: string | null;
-    random: { test: number };
-  }[];
 }
 
 export interface RegisterCredentialsMethodResponse {

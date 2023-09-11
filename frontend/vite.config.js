@@ -11,6 +11,7 @@ export default defineConfig({
       '@pages': path.resolve(__dirname, './src/pages'),
       '@assets': path.resolve(__dirname, './src/assets'),
       '@api': path.resolve(__dirname, './src/api'),
+      '@features': path.resolve(__dirname, './src/features'),
     },
   },
   plugins: [react()]

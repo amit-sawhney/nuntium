@@ -80,15 +80,17 @@ const CreateUserWithCredentials: AbstractCommand<Props, Promise<User>> = {
           throw new DuplicateEntityError('User already exists for provided payload', {
             error,
           });
-        } else if ((error as MongoError).name === 'ValidationError') {
+        } else if (error.code === MongoErrorCode.SCHEMA_VALIDATION) {
           throw new SchemaValidationError('Failed to create user due to invalid data', {
             error,
           });
         }
       }
-    }
 
-    throw new Error('Unexpected error while creating user with local credentials');
+      throw new Error(
+        'Unexpected error while creating user with local credentials: ' + JSON.stringify(error),
+      );
+    }
   },
 };
 
