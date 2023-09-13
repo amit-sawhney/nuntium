@@ -1,11 +1,11 @@
-import { callEndpoint } from './api-helpers';
+import { callEndpoint, ErrorWrapper } from './api-helpers';
 import * as types from './generated-api-types';
 
 export const findAllUsersMethod = (
   params: types.FindAllUsersMethodParams,
   query: types.FindAllUsersMethodQuery,
   body: types.FindAllUsersMethodBody,
-): Promise<types.FindAllUsersMethodResponse> => {
+): Promise<types.FindAllUsersMethodResponse | ErrorWrapper> => {
   return callEndpoint<
     types.FindAllUsersMethodResponse,
     types.FindAllUsersMethodBody
@@ -20,7 +20,7 @@ export const findAllUsersMethod = (
 
 export const loginWithCredentialsMethod = (
   body: types.LoginWithCredentialsMethodBody,
-): Promise<types.LoginWithCredentialsMethodResponse> => {
+): Promise<types.LoginWithCredentialsMethodResponse | ErrorWrapper> => {
   return callEndpoint<
     types.LoginWithCredentialsMethodResponse,
     types.LoginWithCredentialsMethodBody
@@ -31,7 +31,9 @@ export const loginWithCredentialsMethod = (
   });
 };
 
-export const logoutUserMethod = (): Promise<types.LogoutUserMethodResponse> => {
+export const logoutUserMethod = (): Promise<
+  types.LogoutUserMethodResponse | ErrorWrapper
+> => {
   return callEndpoint<types.LogoutUserMethodResponse, never>({
     url: '/auth/logout',
     method: 'post',
@@ -40,7 +42,7 @@ export const logoutUserMethod = (): Promise<types.LogoutUserMethodResponse> => {
 
 export const registerCredentialsMethod = (
   body: types.RegisterCredentialsMethodBody,
-): Promise<types.RegisterCredentialsMethodResponse> => {
+): Promise<types.RegisterCredentialsMethodResponse | ErrorWrapper> => {
   return callEndpoint<
     types.RegisterCredentialsMethodResponse,
     types.RegisterCredentialsMethodBody
@@ -51,10 +53,11 @@ export const registerCredentialsMethod = (
   });
 };
 
-export const retrieveCurrentUserMethod =
-  (): Promise<types.RetrieveCurrentUserMethodResponse> => {
-    return callEndpoint<types.RetrieveCurrentUserMethodResponse, never>({
-      url: '/auth/current-user',
-      method: 'get',
-    });
-  };
+export const retrieveCurrentUserMethod = (): Promise<
+  types.RetrieveCurrentUserMethodResponse | ErrorWrapper
+> => {
+  return callEndpoint<types.RetrieveCurrentUserMethodResponse, never>({
+    url: '/auth/current-user',
+    method: 'get',
+  });
+};

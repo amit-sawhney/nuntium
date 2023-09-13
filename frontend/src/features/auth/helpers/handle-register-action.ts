@@ -2,7 +2,6 @@ import { useApi } from '@/api';
 import { ActionFunction, redirect } from 'react-router-dom';
 
 const handleRegisterAction: ActionFunction = async ({ request }) => {
-  console.log('handleRegisterAction');
   const api = useApi();
 
   const data = await request.formData();
@@ -20,16 +19,12 @@ const handleRegisterAction: ActionFunction = async ({ request }) => {
     };
   }
 
-  const res = await api
-    .registerCredentialsMethod({
-      email: email.toString(),
-      password: password.toString(),
-      firstName: firstName.toString(),
-      lastName: lastName.toString(),
-    })
-    .catch((error) => ({
-      error,
-    }));
+  const res = await api.registerCredentialsMethod({
+    email: email.toString(),
+    password: password.toString(),
+    firstName: firstName.toString(),
+    lastName: lastName.toString(),
+  });
 
   if (api.isError(res)) {
     return {

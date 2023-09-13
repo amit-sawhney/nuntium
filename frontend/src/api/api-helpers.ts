@@ -40,9 +40,13 @@ interface EndpointArgs<T> extends AxiosRequestConfig<T> {
   urlParams?: Record<string, any>;
 }
 
+export interface ErrorWrapper {
+  error: AxiosError;
+}
+
 export const callEndpoint = async <T, K>(
   payload: EndpointArgs<K>,
-): Promise<T> => {
+): Promise<T | ErrorWrapper> => {
   const { url, method, data, params, urlParams, ...rest } = payload;
 
   const uri = buildUrl(url, {
@@ -50,16 +54,25 @@ export const callEndpoint = async <T, K>(
     query: params,
   });
 
-  const response = await instance.request<T>({
-    url: uri,
-    method,
-    data,
-    ...rest,
-  });
+  try {
+    const response = await instance.request<T>({
+      url: uri,
+      method,
+      data,
+      ...rest,
+    });
+    return response.data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      return { error };
+    }
 
-  return response.data;
+    throw error;
+  }
 };
 
-export const isError = (response: any): response is { error: AxiosError } => {
-  return !!response.error;
+export const isError = <T>(
+  response: T | ErrorWrapper,
+): response is ErrorWrapper => {
+  return (response as ErrorWrapper).error !== undefined;
 };

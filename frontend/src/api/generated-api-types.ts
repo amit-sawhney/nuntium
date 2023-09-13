@@ -91,7 +91,33 @@ export interface RegisterCredentialsMethodBody {
 
 export interface RegisterCredentialsMethodResponse {
   message: string;
-  user: string;
+  user: {
+    email: string;
+    newsroom: string[];
+    role: string;
+    firstName: string;
+    lastName: string;
+    preferredName: string | null;
+    phone: string | null;
+    genders: string[];
+    pronouns: string[];
+    races: string[];
+    linkedin: string | null;
+    interests: string[];
+    teams: string[];
+    onboardingState: string;
+    applicationState: string;
+    twitter: string | null;
+    instagram: string | null;
+    facebook: string | null;
+    portfolio: string | null;
+    neighborhood: string | null;
+    approvedAt: Date | null;
+    _id: string;
+    createdAt: Date;
+    updatedAt: Date;
+    __v: number;
+  };
 }
 
 export interface RetrieveCurrentUserMethodResponse {

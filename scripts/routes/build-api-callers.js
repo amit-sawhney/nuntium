@@ -2,7 +2,7 @@ const path = require('path');
 const fs = require('fs');
 
 const imports = `
-import { callEndpoint } from './api-helpers';
+import { callEndpoint, ErrorWrapper } from './api-helpers';
 import * as types from './generated-api-types';
 `;
 
@@ -33,7 +33,7 @@ const bulidFunction = (route, typeMap) => {
     args.push(`body: types.${bodyName}`);
   }
 
-  const returnType = `Promise<types.${responseName}>`;
+  const returnType = `Promise<types.${responseName} | ErrorWrapper>`;
 
   const callEndpointArgs = [
     `url: '${methodInstance.path}'`,

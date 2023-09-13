@@ -17,14 +17,10 @@ const handleLoginAction: ActionFunction = async ({ request }) => {
     };
   }
 
-  await api
-    .loginWithCredentialsMethod({
-      email: email.toString(),
-      password: password.toString(),
-    })
-    .catch((error) => ({
-      error,
-    }));
+  await api.loginWithCredentialsMethod({
+    email: email.toString(),
+    password: password.toString(),
+  });
 
   return redirect('/dashboard');
 };
