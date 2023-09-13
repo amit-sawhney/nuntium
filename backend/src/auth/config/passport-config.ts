@@ -11,13 +11,17 @@ passport.serializeUser((user: User, done) => {
 });
 
 passport.deserializeUser((userId, done) => {
-  UserModel.find({ _id: userId }, (err: unknown, user: User) => {
-    if (err) {
-      return done(err);
-    }
+  UserModel.find({ _id: userId })
+    .then((user) => {
+      if (user.length === 0) {
+        done({ error: 'No user found to deserialize' });
+      }
 
-    return done(null, user);
-  });
+      done(null, user[0]);
+    })
+    .catch((err) => {
+      done(err);
+    });
 });
 
 // Strategies

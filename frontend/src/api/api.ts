@@ -32,10 +32,7 @@ export const loginWithCredentialsMethod = (
 };
 
 export const logoutUserMethod = (): Promise<types.LogoutUserMethodResponse> => {
-  return callEndpoint<
-    types.LogoutUserMethodResponse,
-    types.LogoutUserMethodBody
-  >({
+  return callEndpoint<types.LogoutUserMethodResponse, never>({
     url: '/auth/logout',
     method: 'post',
   });
@@ -53,3 +50,11 @@ export const registerCredentialsMethod = (
     data: body,
   });
 };
+
+export const retrieveCurrentUserMethod =
+  (): Promise<types.RetrieveCurrentUserMethodResponse> => {
+    return callEndpoint<types.RetrieveCurrentUserMethodResponse, never>({
+      url: '/auth/current-user',
+      method: 'get',
+    });
+  };

@@ -18,22 +18,22 @@ export interface FindAllUsersMethodResponse {
     role: string;
     firstName: string;
     lastName: string;
-    preferredName: string;
-    phone: string;
+    preferredName: string | null;
+    phone: string | null;
     genders: string[];
     pronouns: string[];
     races: string[];
-    linkedin: string;
+    linkedin: string | null;
     interests: string[];
     teams: string[];
     onboardingState: string;
     applicationState: string;
-    twitter: string;
-    instagram: string;
-    facebook: string;
-    portfolio: string;
-    neighborhood: string;
-    approvedAt: Date;
+    twitter: string | null;
+    instagram: string | null;
+    facebook: string | null;
+    portfolio: string | null;
+    neighborhood: string | null;
+    approvedAt: Date | null;
     _id: string;
     createdAt: Date;
     updatedAt: Date;
@@ -54,22 +54,22 @@ export interface LoginWithCredentialsMethodResponse {
     role: string;
     firstName: string;
     lastName: string;
-    preferredName: string;
-    phone: string;
+    preferredName: string | null;
+    phone: string | null;
     genders: string[];
     pronouns: string[];
     races: string[];
-    linkedin: string;
+    linkedin: string | null;
     interests: string[];
     teams: string[];
     onboardingState: string;
     applicationState: string;
-    twitter: string;
-    instagram: string;
-    facebook: string;
-    portfolio: string;
-    neighborhood: string;
-    approvedAt: Date;
+    twitter: string | null;
+    instagram: string | null;
+    facebook: string | null;
+    portfolio: string | null;
+    neighborhood: string | null;
+    approvedAt: Date | null;
     _id: string;
     createdAt: Date;
     updatedAt: Date;
@@ -79,7 +79,7 @@ export interface LoginWithCredentialsMethodResponse {
 
 export interface LogoutUserMethodResponse {
   message: string;
-  status: number;
+  status?: number;
 }
 
 export interface RegisterCredentialsMethodBody {
@@ -91,31 +91,36 @@ export interface RegisterCredentialsMethodBody {
 
 export interface RegisterCredentialsMethodResponse {
   message: string;
+  user: string;
+}
+
+export interface RetrieveCurrentUserMethodResponse {
+  message: string;
   user: {
     email: string;
     newsroom: string[];
     role: string;
     firstName: string;
     lastName: string;
-    preferredName: string;
-    phone: string;
+    preferredName: string | null;
+    phone: string | null;
     genders: string[];
     pronouns: string[];
     races: string[];
-    linkedin: string;
+    linkedin: string | null;
     interests: string[];
     teams: string[];
     onboardingState: string;
     applicationState: string;
-    twitter: string;
-    instagram: string;
-    facebook: string;
-    portfolio: string;
-    neighborhood: string;
-    approvedAt: Date;
+    twitter: string | null;
+    instagram: string | null;
+    facebook: string | null;
+    portfolio: string | null;
+    neighborhood: string | null;
+    approvedAt: Date | null;
     _id: string;
     createdAt: Date;
     updatedAt: Date;
     __v: number;
-  };
+  } | null;
 }

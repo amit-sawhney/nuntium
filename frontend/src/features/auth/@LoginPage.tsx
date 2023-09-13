@@ -1,13 +1,18 @@
+import { useEffect } from 'react';
 import { Form, NavLink } from 'react-router-dom';
 
 const LoginPage = () => {
+  useEffect(() => {
+    document.title = 'Login | Nuntium';
+  }, []);
+
   return (
     <div className="flex h-full justify-center">
       <div className="space-y-8 w-full sm:w-4/5 md:w-3/5 pt-52">
         <h1 className="text-2xl text-black font-bold text-center w-full">
           Sign in to your account
         </h1>
-        <Form className="space-y-6">
+        <Form method="POST" className="space-y-6">
           <div className="space-y-1">
             <label htmlFor="email" className="font-medium">
               Email
@@ -33,7 +38,7 @@ const LoginPage = () => {
             </div>
             <input
               name="password"
-              type="text"
+              type="password"
               placeholder="********"
               className="w-full border border-gray-300 rounded-md py-2 px-3"
             />

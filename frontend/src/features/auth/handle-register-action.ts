@@ -16,18 +16,30 @@ const handleRegisterAction: ActionFunction = async ({ request }) => {
     return {
       ok: false,
       status: 400,
-      message: 'Please fill out required feels',
+      message: 'Please fill out required fields',
     };
   }
 
-  await api.registerCredentialsMethod({
-    email: email.toString(),
-    password: password.toString(),
-    firstName: firstName.toString(),
-    lastName: lastName.toString(),
-  });
+  const res = await api
+    .registerCredentialsMethod({
+      email: email.toString(),
+      password: password.toString(),
+      firstName: firstName.toString(),
+      lastName: lastName.toString(),
+    })
+    .catch((error) => ({
+      error,
+    }));
 
-  return redirect('/dashboard');
+  if (api.isError(res)) {
+    return {
+      ok: false,
+      status: res.error.status,
+      message: res.error.message,
+    };
+  }
+
+  return redirect('/');
 };
 
 export default handleRegisterAction;

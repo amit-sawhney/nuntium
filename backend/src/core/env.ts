@@ -16,6 +16,7 @@ const envSchema = zod.object({
   GOOGLE_CLIENT_ID: zod.string(),
   GOOGLE_CLIENT_SECRET: zod.string(),
   GOOGLE_CALLBACK_URL: zod.string(),
+  SESSION_SECRET: zod.string(),
 });
 
 const env = envSchema.parse(process.env);

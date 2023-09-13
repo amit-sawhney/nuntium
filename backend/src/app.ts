@@ -3,10 +3,12 @@ import HttpStatus from 'http-status-codes';
 import cors from 'cors';
 import express, { Request, Response } from 'express';
 import helmet from 'helmet';
+import passport from 'passport';
+import session from 'express-session';
 import 'express-async-errors';
 
 import routes from './api/generated-routes';
-import env from './core/env';
+import env, { isProduction } from './core/env';
 import {
   requestDevelopmentMiddelware,
   requestProductionMiddleware,
@@ -18,10 +20,26 @@ const app = express();
 // Connect to database
 import './core/db';
 
+// Session support
+const sessionConfig = {
+  secure: false,
+  resave: true,
+  saveUninitialized: true,
+  secret: env.SESSION_SECRET,
+};
+
+if (isProduction()) {
+  app.set('trust proxy', 1);
+  sessionConfig.secure = true;
+}
+app.use(session(sessionConfig));
+
 // Setup passport
 import './auth/config/passport-config';
+app.use(passport.initialize());
+app.use(passport.session());
 
-if (env.NODE_ENV === 'production') {
+if (isProduction()) {
   app.use(requestProductionMiddleware);
 } else {
   app.use(requestDevelopmentMiddelware);

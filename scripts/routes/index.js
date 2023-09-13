@@ -1,7 +1,5 @@
 require('dotenv').config();
 
-const { writeFileSync } = require('fs');
-const path = require('path');
 const buildApiCallers = require('./build-api-callers');
 
 const buildApiTypes = require('./build-api-types');

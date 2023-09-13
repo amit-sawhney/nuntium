@@ -10,6 +10,7 @@ import CreateUserWithCredentials from '@/user/command/create-user-with-credentia
 import CreateJwtTokenCommand from '../command/create-jwt-token-command';
 import * as Helpers from '../helpers';
 import env from '@/core/env';
+import logger from '@/core/logger/logger';
 
 interface Body {
   email: string;

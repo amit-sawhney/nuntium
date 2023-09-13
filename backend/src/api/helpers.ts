@@ -22,6 +22,6 @@ export const createRoute = (router: Router, method: AbstractMethod) => {
       return res.status(response.status).json(response);
     }
 
-    res.json(await method.execute(req as any));
+    res.json(response);
   });
 };

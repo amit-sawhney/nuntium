@@ -13,14 +13,18 @@ const parseSchema = (schema) => {
   const paths = schema.paths;
 
   const types = Object.entries(paths)
-    .filter(([key, subSchema]) => subSchema.selected !== false)
+    .filter(([_key, subSchema]) => subSchema.selected !== false)
     .map(([key, subSchema]) => {
       if (subSchema.hasOwnProperty('schema')) {
         // Nested schema
-        return `${key}: { ${parseSchema(subSchema.schema)} }`;
+        const optional = subSchema.isRequired === true || subSchema.isRequired === undefined ? '' : '?';
+        const nullable = subSchema.defaultValue === null ? ' | null' : '';
+        return `${key}${optional}: { ${parseSchema(subSchema.schema)} }${nullable}`;
       } else if (instanceToType[subSchema.instance]) {
         // Primitive type
-        return `${key}: ${instanceToType[subSchema.instance]}`;
+        const optional = subSchema.isRequired === true || subSchema.isRequired === undefined ? '' : '?';
+        const nullable = subSchema.defaultValue === null ? ' | null' : '';
+        return `${key}${optional}: ${instanceToType[subSchema.instance]}${nullable}`;
       } else if (subSchema.instance === 'Array') {
         // Array type
         if (subSchema.caster.instance) {

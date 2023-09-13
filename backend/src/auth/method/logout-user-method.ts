@@ -9,7 +9,7 @@ interface Response {
   status?: number;
 }
 
-type MethodRequest = Request<never, unknown, never, never, Response>;
+type MethodRequest = Request<never, unknown, never, never>;
 
 class LogoutUserMethod implements AbstractMethod<never, never, never, Response> {
   method = ApiMethod.POST;

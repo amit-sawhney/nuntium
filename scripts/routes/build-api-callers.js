@@ -52,8 +52,10 @@ const bulidFunction = (route, typeMap) => {
     callEndpointArgs.push('data: body');
   }
 
+  const bodyType = bodyInterface ? `types.${bodyName}` : 'never';
+
   const functionBody = `
-  return callEndpoint<types.${responseName}, types.${bodyName}>({
+  return callEndpoint<types.${responseName}, ${bodyType}>({
     ${callEndpointArgs.join(',\n')}
   });
   `;

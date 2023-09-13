@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig } from 'axios';
+import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 
 const instance = axios.create({
   baseURL: 'http://localhost:5001/api',
@@ -58,4 +58,8 @@ export const callEndpoint = async <T, K>(
   });
 
   return response.data;
+};
+
+export const isError = (response: any): response is { error: AxiosError } => {
+  return !!response.error;
 };

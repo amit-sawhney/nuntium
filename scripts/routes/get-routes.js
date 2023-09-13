@@ -22,6 +22,9 @@ module.exports = async () => {
     targetDirectory: 'method',
   });
 
+  console.log(files);
+   
+
   const routes = await Promise.all(
     files.map(async (f) => {
       const classname = formatPathToClass(f).replace('.js', '');

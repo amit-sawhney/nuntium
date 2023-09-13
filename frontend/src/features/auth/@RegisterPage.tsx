@@ -1,7 +1,8 @@
-import { Form, NavLink, useActionData } from 'react-router-dom';
+import { Form, NavLink } from 'react-router-dom';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/solid';
 import { XCircleIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
+import { useEffect } from 'react';
 
 const RegisterPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -35,7 +36,9 @@ const RegisterPage = () => {
     setIsValidEmail(re.test(email));
   };
 
-  const actionData = useActionData();
+  useEffect(() => {
+    document.title = 'Register | Nuntium';
+  }, []);
 
   return (
     <div className="flex h-full justify-center">
@@ -91,10 +94,7 @@ const RegisterPage = () => {
               onChange={(e) => validateEmail(e.currentTarget.value)}
             />
             {isValidEmail === false && (
-              <p className="text-red-500">Invalid email</p>
-            )}
-            {isValidEmail === true && (
-              <p className="text-green-500">Valid email</p>
+              <p className="text-red-500 italic text-sm">Invalid email</p>
             )}
           </div>
           <div className="space-y-1">

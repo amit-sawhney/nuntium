@@ -24,7 +24,7 @@ const verifyCb = async (
   } else {
     const user = await UserModel.create({
       // oauthID: profile.id,
-      firstName: profile.name?.givenName,
+      firstName: 'WHAT THE FUCK',
       lastName: profile.name?.familyName,
       email: profile.emails?.[0].value,
       role: UserRole.PENDING,

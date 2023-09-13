@@ -3,6 +3,8 @@ import DuplicateEntityError from '@/core/error/duplicate-entity-error';
 import SchemaValidationError from '@/core/error/schema-validation-error';
 import logger from '@/core/logger/logger';
 import MongoErrorCode from '@/core/mongo-constants';
+import createHttpError from 'http-errors';
+import { StatusCodes } from 'http-status-codes';
 import { MongoError } from 'mongodb';
 
 import UserModel, { User } from '../model/user-model';
@@ -45,11 +47,11 @@ const CreateUserWithCredentials: AbstractCommand<Props, Promise<User>> = {
     portfolio = null,
     linkedin = null,
   }) {
-    logger.trace('Creating user with local credentials');
+    logger.info('Creating user with local credentials');
 
     const exists = await UserModel.exists({ email });
     if (exists) {
-      throw new DuplicateEntityError('User already exists for email');
+      throw createHttpError(StatusCodes.CONFLICT, 'User already exists for provided payload.');
     }
 
     try {
@@ -77,19 +79,13 @@ const CreateUserWithCredentials: AbstractCommand<Props, Promise<User>> = {
     } catch (error) {
       if (error instanceof MongoError) {
         if (error.code === MongoErrorCode.DUPLICATE_KEY) {
-          throw new DuplicateEntityError('User already exists for provided payload', {
-            error,
-          });
+          throw createHttpError(StatusCodes.CONFLICT, 'User already exists for provided payload.');
         } else if (error.code === MongoErrorCode.SCHEMA_VALIDATION) {
-          throw new SchemaValidationError('Failed to create user due to invalid data', {
-            error,
-          });
+          throw createHttpError(StatusCodes.BAD_REQUEST, 'Invalid payload.');
         }
       }
 
-      throw new Error(
-        'Unexpected error while creating user with local credentials: ' + JSON.stringify(error),
-      );
+      throw createHttpError(StatusCodes.INTERNAL_SERVER_ERROR, 'Failed to create user.');
     }
   },
 };
