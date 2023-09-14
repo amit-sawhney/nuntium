@@ -3,7 +3,7 @@ import { LoaderFunction } from 'react-router-dom';
 import * as types from '@/api/generated-api-types';
 import { useApi } from '@/api';
 
-interface LoadCurrentUserLoaderData {
+export interface LoadCurrentUserLoaderData {
   user: types.RetrieveCurrentUserMethodResponse['user'] | null;
 }
 

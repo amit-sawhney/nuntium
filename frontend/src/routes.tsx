@@ -9,9 +9,10 @@ import {
   redirectIfUnauthorized,
   RegisterPage,
 } from '@/features/auth';
+import loadCurrentUser from './features/auth/helpers/load-current-user-loader';
 
 export const routes = createRoutesFromElements(
-  <Route path="/" element={<RootPage />}>
+  <Route path="/" loader={loadCurrentUser} element={<RootPage />}>
     <Route path="/" element={<LandingPage />} />
     <Route path="pricing" element={<h1>Pricing</h1>} />
     <Route path="contact" element={<h1>Contact</h1>} />
