@@ -21,8 +21,6 @@ module.exports = async () => {
     shouldFilterPrivate: true,
     targetDirectory: 'method',
   });
-
-  console.log(files);
    
 
   const routes = await Promise.all(

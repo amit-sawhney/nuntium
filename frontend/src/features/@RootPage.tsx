@@ -1,5 +1,5 @@
 import { Outlet, useLoaderData, useMatch } from 'react-router-dom';
-import { Footer, Navbar } from '../components';
+import { Footer, Navbar, DashboardNavbar } from '../components/layout';
 import { LoadCurrentUserLoaderData } from './auth/helpers/load-current-user-loader';
 
 const RootPage = () => {
@@ -8,7 +8,11 @@ const RootPage = () => {
 
   return (
     <div className="w-full h-full">
-      {!isDashboard && <Navbar isLoggedIn={user !== null} />}
+      {isDashboard ? (
+        <DashboardNavbar />
+      ) : (
+        <Navbar isLoggedIn={user !== null} />
+      )}
       <div className="px-5 lg:px-52 h-[calc(100%-4rem)] -mt-[2rem] sm:mt-0">
         <Outlet />
       </div>

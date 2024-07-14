@@ -18,6 +18,20 @@ export const findAllUsersMethod = (
   });
 };
 
+export const findUserMethod = (
+  params: types.FindUserMethodParams,
+  query: types.FindUserMethodQuery,
+  body: types.FindUserMethodBody,
+): Promise<types.FindUserMethodResponse | ErrorWrapper> => {
+  return callEndpoint<types.FindUserMethodResponse, types.FindUserMethodBody>({
+    url: '/user',
+    method: 'get',
+    params: query,
+    urlParams: params,
+    data: body,
+  });
+};
+
 export const loginWithCredentialsMethod = (
   body: types.LoginWithCredentialsMethodBody,
 ): Promise<types.LoginWithCredentialsMethodResponse | ErrorWrapper> => {

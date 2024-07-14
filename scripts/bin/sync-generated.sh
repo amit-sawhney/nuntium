@@ -1,8 +1,8 @@
+rm ./backend/src/api/generated-routes.ts
+git restore ./backend/src/api/generated-routes.ts
 
 # move the .env from the backend to the scripts
 cp backend/.env scripts/.env
-
-rm ../backend/src/api/generated-routes.ts
 
 cd scripts && yarn gen:routes
 

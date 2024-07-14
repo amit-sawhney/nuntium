@@ -3,7 +3,8 @@ import { Schema, model, Document } from 'mongoose';
 export interface Newsroom extends Document {
   name: string;
   description: string | null;
-  founders: string[];
+  founderIds: string[];
+  teamConfiguration: string;
 }
 
 const NewsroomSchema = new Schema({
@@ -17,13 +18,18 @@ const NewsroomSchema = new Schema({
     default: null,
   },
   // Will default to the user that created the newsroom
-  founders: {
+  founderIds: {
     type: [String],
     default: [],
   },
+  teamConfiguration: {
+    type: Schema.Types.ObjectId,
+    ref: 'NewsroomTeamConfiguration',
+    required: true,
+  },
 });
 
-export const NewsroomModel = model<Newsroom>('Newsroom', NewsroomSchema);
+export const NewsroomModel = model('Newsroom', NewsroomSchema);
 
 export default NewsroomModel;
 export { NewsroomSchema };
